@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+model User {
+  id       Int               @id @default(autoincrement())
+  email    String            @unique
+  name     String?
+  bookings BookingsOnUsers[]
+}
+
+model Game {
+  id    Int    @id @default(autoincrement())
+  name  String
+  image Bytes
+}
+
+model Booking {
+  id              Int               @id @default(autoincrement())
+  timestamp       DateTime
+  durationMinutes Int
+  comment         String
+  users           BookingsOnUsers[]
+}
+
+model BookingsOnUsers {
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  bookingId Int
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int
+
+  @@id([bookingId, userId])
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
