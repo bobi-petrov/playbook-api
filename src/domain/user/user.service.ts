@@ -7,6 +7,7 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   findOneById(id: number): Promise<User | null> {
+    // todo: handle not found
     return this.prisma.user.findUnique({ where: { id } });
   }
   findAll(): Promise<User[] | null> {

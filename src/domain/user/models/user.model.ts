@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Booking } from 'src/domain/booking/models/booking.model';
 
 @ObjectType({ description: 'user' })
 export class User {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @Field((type) => ID)
   id: number;
 
@@ -12,6 +13,6 @@ export class User {
   @Field()
   name: string;
 
-  //   @Field((type) => [Booking])
-  //   bookings: Booking[];
+  @Field((type) => [Booking])
+  bookings: Booking[];
 }

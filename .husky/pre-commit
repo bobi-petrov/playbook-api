@@ -3,4 +3,4 @@
 
 # Run lint-staged: Execute prettier and eslint on staged TypeScript files before commit
 # Check package.json
-yarn prettier:check && yarn lint && git add
+yarn prettier:check && yarn lint
