@@ -11,7 +11,9 @@ export class User {
   email: string;
 
   @Field()
-  name: string;
+  username: string;
+
+  password: string;
 
   @Field((type) => [Booking])
   bookings: Booking[];
