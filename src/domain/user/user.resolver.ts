@@ -6,9 +6,7 @@ import { RegisterDTO } from './dto/register.dto';
 import { UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/shared/guards/jwt.guard';
 import { LoginDTO, LoginResponseDTO } from './dto/login.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { LoginGuard } from 'src/shared/guards/login.guard';
-import { CurrentUser } from 'src/shared/decorators/user.decorator';
 
 @Resolver((of) => User)
 export class UserResolver {
@@ -33,10 +31,7 @@ export class UserResolver {
 
   @Mutation((returns) => LoginResponseDTO)
   @UseGuards(LoginGuard)
-  async login(
-    @Args('loginData') loginData: LoginDTO,
-    @CurrentUser() user: User,
-  ) {
+  async login(@Args('loginData') loginData: LoginDTO) {
     return this.userService.login(loginData);
   }
 }

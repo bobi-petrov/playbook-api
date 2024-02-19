@@ -2,11 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 model User {
-  id       Int               @id @default(autoincrement())
-  email    String            @unique
-  username String            @unique
-  password String
-  bookings BookingsOnUsers[]
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
+  username          String    @unique
+  password          String
+  createdByBookings Booking[] @relation(name: "createdBy")
+  Booking           Booking[]
 }
 
 model Game {
@@ -16,20 +17,13 @@ model Game {
 }
 
 model Booking {
-  id              Int               @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   timestamp       DateTime
   durationMinutes Int
   comment         String
-  users           BookingsOnUsers[]
-}
-
-model BookingsOnUsers {
-  booking   Booking @relation(fields: [bookingId], references: [id])
-  bookingId Int
-  user      User    @relation(fields: [userId], references: [id])
-  userId    Int
-
-  @@id([bookingId, userId])
+  createdBy       User     @relation(name: "createdBy", fields: [createdById], references: [id])
+  users           User[]
+  createdById     Int
 }
 
 generator client {

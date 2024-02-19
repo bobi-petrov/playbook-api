@@ -5,10 +5,18 @@
 """booking"""
 type Booking {
   comment: String!
+  createdBy: User!
   durationMinutes: Int!
   id: ID!
   timestamp: DateTime!
   users: [User!]!
+}
+
+input CreateBookingDTO {
+  comment: String!
+  durationMinutes: Int!
+  timestamp: DateTime!
+  userIds: [Int!]!
 }
 
 """
@@ -26,6 +34,7 @@ type LoginResponseDTO {
 }
 
 type Mutation {
+  createBooking(createBookingDTO: CreateBookingDTO!): Booking!
   login(loginData: LoginDTO!): LoginResponseDTO!
   register(registerData: RegisterDTO!): User!
 }

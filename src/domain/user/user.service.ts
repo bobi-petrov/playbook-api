@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -13,17 +17,18 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
 
-  findOneById(id: number): Promise<User | null> {
+  async findOneById(id: number): Promise<User> {
     // todo: handle not found
-    return this.prisma.user.findUnique({ where: { id } });
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) throw new NotFoundException('User does not exist!');
+    return user;
   }
-  findOneByUsername(username: string) {
-    return this.prisma.user.findUnique({ where: { username } });
+  findOneByUsername(username: string): Promise<User> {
+    const user = this.prisma.user.findUnique({ where: { username } });
+    if (!user) throw new NotFoundException('User does not exist!');
+    return user;
   }
-  findOneByEmail(email: string) {
-    return this.prisma.user.findUnique({ where: { email } });
-  }
-  findAll(): Promise<User[] | null> {
+  findAll(): Promise<User[] | []> {
     return this.prisma.user.findMany();
   }
   async validateUser(loginData: LoginDTO) {

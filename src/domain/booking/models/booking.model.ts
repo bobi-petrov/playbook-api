@@ -18,4 +18,7 @@ export class Booking {
 
   @Field((type) => [User])
   users: User[];
+
+  @Field((type) => User)
+  createdBy: User;
 }
